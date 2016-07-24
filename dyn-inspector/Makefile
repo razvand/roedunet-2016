@@ -26,4 +26,4 @@ $(PDF): $(TEX) $(BIB) sections/
 	$(PDFLATEX) $<
 
 clean:
-	-rm -f *~ *.aux *.log *.blg *.bbl *.out
+	-rm -f *~ *.aux *.log *.blg *.bbl *.out *.pdf

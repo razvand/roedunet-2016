@@ -1,0 +1,65 @@
+To achieve the desired functionality, the DynInspector tool is designed and built upon the following software support and hardware specifications:
+
+\begin{itemize}
+\item \textbf{OS platform}: Ubuntu 14.04  LTS
+\item \textbf{OS type}: 32 bit / i686
+\item \textbf{Target executable format}: ELF 32-bit LSB  executable, Intel 80386
+\item \textbf{Programming language}: \textbf{python 2.7}
+\item \textbf{Graphical User Interface}: \textbf{PySide} python module \textbf{1.2.1}
+\begin{itemize}
+\item Based on \textbf{QtCore 4.8.6}
+\end{itemize}
+\item \textbf{lldb}: \textbf{lldb} python module \textbf{3.6}
+\item \textbf{Dependencies}: \textbf{llvm-3.6} and \textbf{clang 3.6}
+\end{itemize}
+
+The DynInspector tool is written in the Python scripting language. It is structured on two Python threads, one for the gui and one for background computations. The choice for using two threads is justified by the following two reasons:
+\begin{itemize}
+\item The gui is required to run on a dedicated thread in order to be responsive. The other computations require a background thread.
+\item There are no intensive background computations which makes one thread alone suitable for the task.
+\end{itemize}
+
+\subsection{Graphical User Interface}
+
+The gui is implemented using Python PySide bindings to Qt. It is important that the gui differentiates between dynamic linking, along with lazy binding, thus there are two different application modes which I will detail below.
+
+\paragraph{Dynamic Linking / Lazy Binding Mode.}
+
+This mode highlights the dynamic linking process, more specifically address resolution with the lazy binding mechanism. Basically it shows what happens when a function from a dynamically shared library is called from a program.
+
+\paragraph{Dynamic Loading Mode.}
+
+This mode highlights memory mappings for shared libraries and presents the user initiated function call mechanism for functions in shared libraries. Basically it traces \textit{dlopen}, \textit{dlsym} and \textit{dlclose} calls.
+
+Overall, the gui has a simple and intuitive aspect which allows the user to use it without previous experience. Moreover, it offers all the functionality necessary for analysing the dynamic linking and dynamic loading processes with a minimum complexity by use of basic interactive widgets.
+
+\subsection{Background Work}
+
+In this particular case, background computations consist of:
+\begin{itemize}
+\item \textbf{Handling a debugger instance which runs an ELF executable.} This means sending commands to it and obtaining status information about the process being run.
+\item \textbf{Processing the information from the debugger instance.} The purpose of the current application is to provide selective information to the user. The parsed data is forwarded to the gui thread.
+\end{itemize}
+
+The background thread acts as an intermediate between the gui and \textit{lldb} debugger.
+
+\subsection{Communication and Synchronization}
+
+The applications threads communicate using Python \textit{Signals and Slots} from \textit{PySide}. It is a mechanism for user-defined callbacks. Each thread registers, or \textit{connects}, a \textit{slot} function to a \textit{signal} object. The purpose of this function is to handle a certain event. For the signal, the event is \textit{emitted} on demand.
+
+The response of the background thread are instantaneous due to the performance of the \textit{lldb} module and, thus, further synchronization is not necessary at this stage.
+
+\subsection{LLDB Wrapper Module}
+
+The background thread creates and interacts with an instance of the \textit{lldb} debugger. The instance is not used directly, but through a wrapper module which extends the functionality of the Python \textit{lldb} module.
+
+This module offers support includes support for:
+\begin{itemize}
+\item \textbf{Printing the current frame}
+\item \textbf{Reading Global Offset Table entries and PLT entries}
+\item \textbf{Providing information about shared libraries} mapped in the program memory (modules)
+\item \textbf{Creating breakpoints for the functions with stubs in the \textit{.plt} and for \textit{dlopen}, \textit{dlsym}, \textit{dlclose} calls}
+\item \textbf{Execution handling}: run, continue, step. This limits the points where the program is stopped to events of interest for the linker and loader.
+\end{itemize}
+
+The main advantage of isolating the above functionality in a stand-alone module is that it is independent of the current application and can be imported in other projects as well. The background thread aggregates the wrapper module and interacts with it by calling its methods.

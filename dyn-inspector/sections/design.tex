@@ -1,0 +1,27 @@
+The tools described in the previous section allow visualisation of the linking and loading processes as long as the user is aware of what needs to be followed. There are two main drawbacks of the usage of debuggers as a means to understand linking and loading. The first is that debuggers do not highlight any process in particular. They are tools with no purpose until the user gives them one. The second is that debuggers are very complex and offer a multitude of functions. This discourages inexperienced users from using them.
+
+Firstly, stepping in a debugger is not particularly useful for somebody who first encounters these concepts and needs a hand-on application to fully grasp what is happening at each stage. Debuggers cannot be used as a learning tool properly, as they do not offer pointers as to what is happening in the linking and loading processes. Previous knowledge is required.
+
+Secondly, in order to use specific debuggers, the user must be accustomed to their functionality. Both \textit{gdb} and \textit{lldb} have a wide range of commands which make them very powerful tools, at the cost of user experience.
+
+Prior to using them, one must learn what the proper commands are for what is intended, as well as what to understand from the output returned. For an inexperienced user whose goal is to understand the mechanics of dynamic linking and loading, this can be a time consuming and unnecessary process.
+
+\subsection{Objectives}
+
+The preceding section underlines the issues with the existing approaches to understanding how the dynamic loader and linker work. Despite providing extensive functionality, debuggers are not a solution to the specific problem of inspecting the dynamic linker and loader, but rather a possible workaround. 
+
+This project fills the need for a dedicated solution for analysing the dynamic linking and loading processes. DynInspector is a tool which provides full functionality for exploring dynamic linking and loading after an ELF executable is launched. It consists of two major parts:
+\begin{itemize}
+\item an extension to the \textit{lldb} python module which implements dedicated methods for analysing the behaviour of the dynamic linker and loader;
+\item a user-friendly graphical interface which isolates the necessary functionality for interacting with the program during dynamic linking and loading;
+\end{itemize}
+
+\subsection{Design}
+
+DynInspector focuses the capabilities of a debugger, in this case \textit{lldb}, on the observation of and interaction with the dynamic linking and loading process. The focus is achieved through a set of design principles:
+
+\begin{itemize}
+\item \textbf{Create a user-friendly graphical interface.} The user should only interact with the tool through an intuitive and minimal graphical user interface. Unnecessary functionality should not be provided.
+\item \textbf{Ensure an interactive user experience.} The user should be able to control the target executable being inspected by means of the gui and nothing else. The GUI should provide the necessary functionality and be responsive at all times.
+\item \textbf{Extend the functionality of existing tools.} The functionality desired in order to observe the dynamic loader should be contained in a stand-alone module. The code should be reusable as a python module and should extend, not replicate, the existing \textit{lldb} functionality.
+\end{itemize}

@@ -1,0 +1,40 @@
+The DynInspector tool is intended for both first and second year computer science students and hobbyists who are interested in understanding the functionality of dynamic linkers and loaders. The purpose of the tool is primarily educational.
+
+For this reason, the testing plan involved approaching the target users and allowing them to run and test the application.
+
+\subsection{User Interface}
+
+In order to asses if the interface satisfies the objectives, I evaluated the users' difficulty in using the interface and understanding what each component, or widget, does.
+
+After the first version of DynInspector was tested, initial feedback remarked that the gui design was primitive and discouraged users from using the tool. I changed the gui to have a similar design to that of IDEs such as \textit{Eclipse}\footnote{\url{https://eclipse.org/}} in order to give the user a familiar sensation when using the tool. The tool become more visually appealing with these changes.
+
+Another feedback point was that users were not aware that the application has two inspection modes. In order to make it simple and clear for all users, regardless of their operating system, I moved the button to the \textit{Status and Control Bar}. The ten users who tested the application in its final form were able to switch the application mode without being told about the mode beforehand and without help in locating the widget.
+
+Users remarked that it is difficult to follow the program execution flow through the assembly code alone. This is because most of them take assembly courses in their second year. For this reason, I added an additional \textit{Source Code} tab window to the \textit{Assembly Code} tab window, functional only for executables compiled with debug symbols. It shows the content of the source file and also highlights the current instruction. The users can now look at both the assembly and source code which makes it easier to understand where the program is and what is happening.
+
+The changes described above resulted in a positive final feedback. Users described the gui of DynInspector as being intuitive and straight-forward. This indicates that the objective of creating an easy-to-use tool was achieved.
+
+\subsection{Tool Usage}
+
+In the previous chapters I argued that DynInspector was designed to be intuitive and self-explanatory and that an inexperienced user should be able to use it without previous knowledge and without assistance.
+
+Overall feedback revealed that despite the straight-forward use of the interface, five out of twelve users were not certain what they were expected to do at first glance. They mentioned that only after a couple of consecutive runs did they understand what the tool was doing. To solve this problem, I created the \textit{Help} button which offers a crash-course on the theory of dynamic linking and loading, as well as a short description of what each application mode does. As a result, users instinctively clicked \textit{Help} and read the instructions when they first used the program. They figured out more easily what they were expected to do with the tool, where to look and how to interpret the data displayed.
+
+The simple and intuitive design of the gui helped users figure out how to use the tool in the majority of situations. The feedback received on tool usage was tackled with a short tutorial on dynamic linking and loading and this proved to be an effective solution.
+
+\subsection{Educational Purpose}
+
+The most important objective of the project is to create a simple and straight-forward inspection tool for dynamic linking and loading which is adequate for inexperienced users interested in learning about these processes. In order to asses if DynInspector properly emphasises the essential aspects of dynamic linking and loading, I have analysed the feedback received from the users.
+
+Initial feedback revealed that even though users could easily use the tool, they did not understand what dynamic linking and dynamic loading were. For example, one of the first testers mentioned he had opened twenty browser tabs with information on dynamic linking and loading in order to fully understand what was happening. This problem was fixed when I created the \textit{Help} section which offered a crash-course on dynamic linking, dynamic loading and lazy procedure linkage.
+
+The most recent feedback revealed that all the users who reviewed the DynInspector tool agreed that what is happening is simple and clear. They properly distinguished between dynamic linking and dynamic loading by using the two different inspection modes. The \textit{Help} manual offers a basic theoretical understanding of the process, whereas the inspector itself helps deepen the knowledge with a hand-on tutorial on dynamic linking and dynamic loading.
+
+Moreover, ten out of twelve users confirmed that they would not have been able step through the entire process by themselves, without using the tool and with no previous knowledge, as it was too complicated. There are two main reasons they presented. The first one is that they are not familiar enough with debugger tools such a \textit{gdb} and, in most cases, the complexity of the command line debugger discouraged them from attempting to use it. It is important to notice that this feedback belongs not only to first year students, but also to third year ones. Secondly, they had no knowledge of the dynamic linking and dynamic loading processes and, as a result, they did not know what they should look at in the debugger output and what each step meant. This validates the motivation for creating this project and the final positive feedback supports that the main objectives have been achieved.
+ 
+\subsection{Additional Feedback}
+
+Aside from the main feedback points which validate the main purpose of the project, users have presented valuable feedback regarding the functionality of the project and compatibility with their systems.
+
+Feedback revealed that seven out of twelve users had 64 bit systems which made the DynInspector tool unusable for them. In order to test the tool, they had to use a virtualization solution such a VmWare\footnote{\url{http://www.vmware.com/}} and install a 32 bit machine. This process is cumbersome and might discourage users who do not have virtualization software already installed on their system from using the tool. For this reason, most users requested that further development includes support for 64 bit machines.
+Overall, the feedback revealed that DynInspector has made an impact in the sense that its goal of presenting dynamic loading and dynamic linking in an accessible manner to inexperienced users has been completed.

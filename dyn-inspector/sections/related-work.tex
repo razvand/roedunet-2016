@@ -1,0 +1,25 @@
+At present, in order to make a preliminary assessment of how the linker and loader work, there are tools which make it possible to examine the contents of an executable before it is run. 
+
+\subsection{Basic Unix Tools}
+
+On Unix systems, basic command line tools such as \textit{readelf}\footnote{\url{https://sourceware.org/binutils/docs/binutils/readelf.html}} and \textit{objdump}\footnote{\url{https://sourceware.org/binutils/docs/binutils/objdump.html}} achieve the functionality described above for ELF executables. They can display the sections of a program with their corresponding offsets within the program address space. This can be useful as the loader can keep this arrangement, although this is not guaranteed.
+
+However, they cannot offer detailed information, or none at all, about particular sections of interest in the dynamic linking and loading process, such as the \textit{.plt} or \textit{.got.plt} sections.
+
+In order to properly understand how the linker and loader function and interact, tools which have the possibility to instrument an executable are necessary. At present, these tools are debuggers.
+
+\subsection{GDB}
+
+Unix platforms provide by default \textit{gdb} which is a powerful debugging tool for ELF executables. \textit{Gdb} includes standard commands for displaying the shared libraries used by the program, as well as the offsetted locations of the segments in the running ELF.
+
+However, in order to observe the detailed process of dynamic linking and loading, the user must manually interact with \textit{gdb}. For example, in the case of a function call to a shared library,  the workflow involves setting breakpoints and obtaining the address of the \textit{.plt} section and \textit{.got.plt} entry for function.
+
+This implies that knowledge of the process is a prerequisite in order to follow the subtle changes happening at the time of dynamic linking.
+
+\subsection{LLDB}
+
+Despite its powerful features, \textit{gdb} lacks integration with other software and cannot be included as a module or library in custom programs. It is designed as a manually operated command line tool for the main purpose of debugging.
+
+For this reason, the LLVM project\footnote{\url{http://llvm.org/}} has started developing a high performance debugger which broadly covers the existing \textit{gdb} functionality. \textit{Lldb}\footnote{\url{http://lldb.llvm.org/}} supports command-line debugging, but can also be included as a module in scripting languages such as Python\footnote{\url{https://www.python.org/}}.
+
+Therefore, in order to observe the linking and loading process, \textit{lldb} offers a similar set of steps as \textit{gdb} through its command line feature. However, its main advantage is that its functionality can easily be extended to fit more specific needs.
