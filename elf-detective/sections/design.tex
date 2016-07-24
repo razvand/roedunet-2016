@@ -1,0 +1,32 @@
+ELF Detective is a tool that allows to interactively explore the linking process based on executables and the object files that build them. As the project name says, it currently only works with ELF files, which means it's a Linux only project. It provides a highly interactive GUI that is easy to use and understand, making the process of analysing files a lot easier. Further in this chapter we will be present how the program is implemented and the reasoning behind it.
+
+At the moment ELF Detective is a 64-{}bit program only due to library dependencies, but it can work with binaries compiled for 32-{}bit as well. The term ELF is used in a generous manner since it can only currently work with x86 ELFs.
+
+\subsection{Building Blocks}
+\label{sec:build-blocks}
+
+In order to present how the project works and behaves as a whole there are some functionalities that need to be explained individually for the sake of clarity. In this section we will present the building blocks of the application in unique subsections in hope of a better understanding of the project implementation.
+
+\subsubsection{ELF File Representation}
+\label{sub-sec:elf-rep}
+
+The inner representation of the ELF files is the core of this project. To be able to keep this files in an organized manner, the \textbf{Binary File Descriptor}\footnote{\url{https://sourceware.org/binutils/docs-2.26/bfd/index.htmll}} was used to open, parse and extract data that otherwise would be very difficult to do. The ELF file as a unit is a wrapper over the BFD format so that any required data can be stored. By caching any frequently used data, it saves a lot of calls to the \textbf{BFD} library, where most of them translate into system calls, and therefore saving resources. 
+
+\subsubsection{Disassembly Module}
+\label{sub-sec:dis-mod}
+
+The purpose of this module is to translate the machine code into assembly language and to offer an easy to use API for the GUI. It focuses mainly on the .text section since only functions need to be disassembled. In order to do so, this will find a disassembling function in the system with the help of \textbf{libopcodes}, that will handle the translation.
+
+The output of this module is a complete list of functions from the requested file. Each of these functions contain a list of code lines. A code line has information about the offset, the disassembled line of code, the opcodes and the symbol it references if it does and how it does it. This vector of functions is added to the ELF file representation so that it can be easily accessed by the GUI, without interrogating this module.
+
+\subsubsection{Symbol Analysis Module}
+\label{sub-sec:sym-mod}
+
+In order to have an accurate output, without any useless symbols, this module analyse all the files currently open in the project. The simplest way to describe this functionality is as a comparison between the symbols found in the object files and those in the executable file. This means that all the relevant symbols (there's no need for section names or any auxiliary compiler variables) used in the object files will be gathered and filtered for duplicates. If we find any symbol that's used in more than one file, it means that this symbol was defined in only one of those files and for the others it is unknown before link time. For this project there's need only for keeping the defined symbol, and data of where it is not known. After obtaining the symbol collection from the object files, the executable is parsed as well and it adds new data for each symbol that is already in the collection.
+
+The output is this collection of symbols and all the data regarding them, which means that all the changes that happened during the relocation and address binding phases can be shown. It is represented in a Hash Map so a symbol can be easily found when asked by the GUI.
+
+\subsubsection{Graphical User Interface}
+\label{sub-sec:gui-mod}
+
+The GUI is what makes this project unique and gives it a purpose. It is implemented with Qt\footnote{\url{https://www.qt.io/qt-framework/}} (initially version 5.5, now updated to 5.6), a C++ framework, which allows easy integration of a project with a graphical interface, with easy to catch events and drag and drop interface design. This framework allowed the program to be highly interactive and easy to use. The GUI shows the executable and the object files (placed in tabs) side by side for easy comparison. Each ELF file have two accordion items, 'Data' and 'Functions', containing information from both the disassembly and the symbol analysis modules. The 'Data' page holds information about variables and symbols that are unknown at link time (e.g. a call to printf). By clicking on any item, it will select the tab of the corresponding object file, it will highlight the symbol declaration that tab and it will show every information about the symbol, from both executable and object files. The 'Functions' page shows a list of expandable function names. By expanding a function, it will show the disassembly code. The clicking behaviour is similar to the 'Data' page one. The code lines shown here can be changed into opcodes by clicking on the check box 'Hexcodes'.

@@ -1,1 +1,23 @@
-Just a sample citation~\cite{ios-popularity}.
+The linking stage is one of the most important topics in computer science and represents a cornerstone for every individual training in this area. While at first is easy to feel like this process is easy to understand, one might find himself to a point where the lack of a good knowledge of this stage led to complications.
+
+The problem is not as obvious as one not knowing what happens during the process, but the lack of a more practical experience, which is hard to gain. Ideally, we could learn about this topic in a less theoretical way, that can form a better background for an individual of any level of expertise. 
+
+Doing a manual analysis of the transformations that happen during the linking stage will only lead to  a whole of machine code that gets merged. This is not very helpful since the changes are almost unrecognizable, leading to confusion for an unexperienced user.
+
+The project that we present in this paper, ELF Detective, is an educational tool created with the goal of helping students understand the changes that occur in the linking process. It offers an interactive interface where it presents the important data as a comparison between its states in the executable and object files. To find any additional information, the user has to click on any item and it will show the information in an easy to read format that clarifies the "how's" and the "what's" regarding the changes.
+
+\subsection{Motivation}
+\label{sec:motivation}
+
+We base our  motivation for this project on the fact that many complex topics, in this case the linking process, are a lot harder to understand without a practical example, and even in the case of one being provided, most often it's too generic. To our knowledge, there are no educational tools allowing an easy exploration of the linking process, and any other program that might help is not beginner friendly.
+
+\subsection{Objective}
+\label{sec:obj}
+
+Our main objective with this project is to help others understand the linking process better while spending a lot less time. Since there is no other tool that we know of that has this focus, the one we were to create had to be easy understand.
+
+From an education point of view, this project must be able to explain the changes that occur in the linking stage in the easiest way possible so a student of any background can understand it well. This means that all addresses must be explained, any link between the executable and object files is well represented and the wording of the explanation is not too complex.
+
+Our second objective for this project is to be interactive. This means that not only the program will have a good response time, but the GUI will seem straightforward to use. If the user is currently inspecting a project and require more information, he just has to click on it. This works for both symbols and code lines, and the output not only that explains the requested information as best as it can, but it does it for both the executable file and the object file it came from.
+
+Lastly the project must be correct, have a good response time (under a second) and scale well. These topic is covered later on.
