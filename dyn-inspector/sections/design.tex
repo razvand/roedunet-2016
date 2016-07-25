@@ -12,9 +12,11 @@ The preceding section underlines the issues with the existing approaches to unde
 
 This project fills the need for a dedicated solution for analysing the dynamic linking and loading processes. DynInspector is a tool which provides full functionality for exploring dynamic linking and loading after an ELF executable is launched. It consists of two major parts:
 \begin{itemize}
-\item an extension to the \textit{lldb} python module which implements dedicated methods for analysing the behaviour of the dynamic linker and loader;
-\item a user-friendly graphical interface which isolates the necessary functionality for interacting with the program during dynamic linking and loading;
+  \item an extension to the \textit{lldb} python module which implements dedicated methods for analysing the behaviour of the dynamic linker and loader;
+  \item a user-friendly graphical interface which isolates the necessary functionality for interacting with the program during dynamic linking and loading;
 \end{itemize}
+
+Current support is for the x86 architecture~\cite{x86-fundamentals} due its prevalence in programming circles~\cite{Blem13adetailed} and the plethora of support information.
 
 \subsection{Design}
 
