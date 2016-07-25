@@ -1,11 +1,8 @@
-ELF Detective is a tool that allows to interactively explore the linking process based on executables and the object files that build them. As the project name says, it currently only works with ELF files, which means it's a Linux only project. It provides a highly interactive GUI that is easy to use and understand, making the process of analysing files a lot easier. Further in this chapter we will be present how the program is implemented and the reasoning behind it.
+ELF Detective is a tool that allows to interactively explore the linking process based on executables and the object files that build them. As the project name says, it currently only works with ELF files~\cite{elf-url}, which means it's a Linux only project. It provides a highly interactive GUI that is easy to use and understand, making the process of analysing files a lot easier. Further in this chapter we will be present how the program is implemented and the reasoning behind it.
 
 At the moment ELF Detective is a 64-{}bit program only due to library dependencies, but it can work with binaries compiled for 32-{}bit as well. The term ELF is used in a generous manner since it can only currently work with x86 ELFs.
 
-\subsection{Building Blocks}
-\label{sec:build-blocks}
-
-In order to present how the project works and behaves as a whole there are some functionalities that need to be explained individually for the sake of clarity. In this section we will present the building blocks of the application in unique subsections in hope of a better understanding of the project implementation.
+We present below the building blocks of the application.
 
 \subsubsection{ELF File Representation}
 \label{sub-sec:elf-rep}
